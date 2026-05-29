@@ -1,73 +1,38 @@
 # Finance RAG Assistant
 
-A RAG-powered Q&A system that answers questions about SEC 10-K filings using local LLMs — built with LangChain, FAISS, Mistral, and FastAPI.
-
----
+A retrieval-augmented generation (RAG) system that answers questions about SEC 10-K filings using local LLMs.
 
 ## What it does
-
 - Loads and processes SEC 10-K annual report PDFs
 - Converts document chunks into vector embeddings using HuggingFace
 - Retrieves relevant context using FAISS similarity search
 - Generates accurate, grounded answers using Mistral LLM via Ollama
-- Logs all queries with a `/stats` monitoring endpoint for tracking usage and answer quality
 - Exposes a REST API via FastAPI
-- Includes a custom evaluation pipeline measuring retrieval relevancy and answer faithfulness
-
----
-
-## Monitoring
-
-Every query is logged to `data/query_log.json` with:
-- Timestamp
-- Question asked
-- Answer generated
-- Number of chunks retrieved
-
-The `/stats` endpoint exposes aggregate metrics:
-
-```json
-{
-  "total_queries": 5,
-  "avg_answer_length_words": 22.4,
-  "recent_questions": ["What was Apple revenue in 2025?"]
-}
-```
-
-Designed to track model usage and detect answer quality degradation over time.
-
----
+- Includes an evaluation pipeline measuring relevancy and faithfulness scores
 
 ## Tech Stack
-
-| Component | Tool |
-|---|---|
-| RAG orchestration | LangChain |
-| Vector store | FAISS |
-| Embeddings | HuggingFace — all-MiniLM-L6-v2 |
-| LLM | Mistral via Ollama |
-| API | FastAPI |
-| Frontend | Streamlit |
-| Monitoring | Custom logging + /stats endpoint |
-
----
+- LangChain — RAG orchestration
+- FAISS — vector similarity search
+- HuggingFace Embeddings — sentence-transformers/all-MiniLM-L6-v2
+- Mistral via Ollama — local LLM inference
+- FastAPI — REST API serving
+- Streamlit — frontend interface
 
 ## Project Structure
 
+```
 finance-rag-assistant/
-├── data/                  # 10-K PDF storage, FAISS index, query logs
+├── data/                  # 10-K PDF storage and FAISS index
 ├── src/
 │   ├── loader.py          # PDF loading and chunking
 │   ├── embeddings.py      # Vector store creation and loading
 │   ├── retriever.py       # Similarity search retrieval
 │   ├── chain.py           # RAG chain combining retriever + LLM
-│   ├── monitor.py         # Query logging and stats
 │   └── evaluate.py        # Evaluation pipeline
 ├── app.py                 # FastAPI application
-├── streamlit_app.py       # Streamlit frontend
+├── streamlit_app.py       # Streamlit frontendcs
 └── requirements.txt
-
----
+```
 
 ## Setup
 
