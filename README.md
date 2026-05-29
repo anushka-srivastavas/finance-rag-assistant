@@ -79,7 +79,11 @@ curl -X POST "http://localhost:8000/ask" \
 -H "Content-Type: application/json" \
 -d '{"question": "What was Apple total revenue in 2025?"}'
 ```
+## Monitoring
 
+- Every query is logged to `data/query_log.json` with timestamp, question, answer, and chunks retrieved
+- `/stats` endpoint exposes aggregate metrics — total queries, average answer length, recent questions
+- Designed to track model usage and detect answer quality degradation over time
 ## Evaluation
 
 ```bash
